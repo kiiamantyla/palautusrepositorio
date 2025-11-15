@@ -1,0 +1,3 @@
+Retrospektiivi on sprintin lopussa pidettävä tiimipalaveri, jossa arvioidaan, mikä sujui hyvin, mitä tulisi parantaa ja miten opitut asiat voidaan siirtää seuraaviin iterointeihin.
+Start, Stop, Continue, More of, Less of Wheel auttaa arvioimaan toimintoja, joita tulisi aloittaa, lopettaa, jatkaa tai tehdä enemmän tia vähemmän. Menetelmä nopeuttaa palautteen antamista ja jakaa sitä selkeämpiin osiin. Kehityskohteet tulevat esiin selkeästi.
+Glad, Sad, Mad keskittyy enemmän tiimin tunteisiin. Tiimin jäsenet kirjaavat asiat, jotka tekivät heidät iloisiksi, surullisiksi tai vihaisiksi. "Otsikoita" ei tarvitse ottaa täysin niiden kirjaimellisessa muodossa. Tämä tuo esiin myös ilmapiiriin ja yhteistyöhön liittyviä asioita enemmän.
