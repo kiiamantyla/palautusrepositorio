@@ -27,7 +27,7 @@ class TennisGame:
         return self.p1_points == self.p2_points
 
     def tied_score(self):
-        if self.p1_points < 3:
+        if self.p1_points <= 2:
             return f"{self.SCORE_NAMES[self.p1_points]}-All"
         return "Deuce"
 
