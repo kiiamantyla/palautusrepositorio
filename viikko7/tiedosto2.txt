@@ -1,2 +1,3 @@
 tässä toinen tiedosto
 toiseenkin uusi rivi
+toinen uusi rivi
