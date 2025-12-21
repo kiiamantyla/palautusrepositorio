@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kierroksen tulos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        .moves-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0;
+            font-size: 5em;
+        }
+        .vs {
+            font-size: 0.4em;
+            font-weight: bold;
+        }
+        .score {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .score-line {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .end-button {
+            background: rgba(255, 100, 100, 0.9) !important;
+            color: white !important;
+        }
+        .end-button:hover {
+            background: rgba(255, 50, 50, 0.9) !important;
+        }
+        .move-label {
+            font-size: 0.3em;
+            text-align: center;
+        }
+        .move-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kierroksen tulos</h1>
+        
+        <div class="moves-display">
+            <div class="move-container">
+                <div>
+                    {% if ekan_siirto == 'k' %}🪨
+                    {% elif ekan_siirto == 'p' %}📄
+                    {% elif ekan_siirto == 's' %}✂️
+                    {% endif %}
+                </div>
+                <div class="move-label">
+                    {% if valinta == 'a' %}Pelaaja 1{% else %}Sinä{% endif %}
+                </div>
+            </div>
+            
+            <div class="vs">VS</div>
+            
+            <div class="move-container">
+                <div>
+                    {% if tokan_siirto == 'k' %}🪨
+                    {% elif tokan_siirto == 'p' %}📄
+                    {% elif tokan_siirto == 's' %}✂️
+                    {% endif %}
+                </div>
+                <div class="move-label">
+                    {% if valinta == 'a' %}Pelaaja 2
+                    {% elif valinta == 'b' %}Tekoäly
+                    {% else %}Parannettu tekoäly{% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="score">
+            <h2>Tilanne</h2>
+            <div class="score-line">{{ ekan_pisteet }} - {{ tokan_pisteet }}</div>
+            <p>Tasapelit: {{ tasapelit }}</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Tavoite: {{ voittojen_tavoite }} voittoa</p>
+        </div>
+        
+        <form action="/pelaa" method="GET">
+            <button type="submit">Pelaa uusi kierros</button>
+        </form>
+        
+        <form action="/loppu" method="GET">
+            <button type="submit" class="end-button">Lopeta peli</button>
+        </form>
+    </div>
+</body>
+</html>

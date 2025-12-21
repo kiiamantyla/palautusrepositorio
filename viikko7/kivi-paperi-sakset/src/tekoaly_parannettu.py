@@ -1,10 +1,22 @@
+"""Parannettu tekoäly joka muistaa pelaajan siirtoja."""
 # "Muistava tekoäly"
 class TekoalyParannettu:
+    """Tekoäly joka oppii pelaajan siirroista ja yrittää ennustaa seuraavan siirron."""
     def __init__(self, muistin_koko):
+        """Alustaa parannelun tekoälyn.
+
+        Args:
+            muistin_koko: Montako siirtoa tekoäly muistaa.
+        """
         self._muisti = [None] * muistin_koko
         self._vapaa_muisti_indeksi = 0
 
     def aseta_siirto(self, siirto):
+        """Tallentaa pelaajan siirron muistiin.
+
+        Args:
+            siirto: Pelaajan siirto.
+        """
         # jos muisti täyttyy, unohdetaan viimeinen alkio
         if self._vapaa_muisti_indeksi == len(self._muisti):
             for i in range(1, len(self._muisti)):
@@ -16,7 +28,12 @@ class TekoalyParannettu:
         self._vapaa_muisti_indeksi = self._vapaa_muisti_indeksi + 1
 
     def anna_siirto(self):
-        if self._vapaa_muisti_indeksi == 0 or self._vapaa_muisti_indeksi == 1:
+        """Antaa seuraavan siirron muistista opitun perusteella.
+
+        Returns:
+            Seuraava siirto ('k', 'p' tai 's').
+        """
+        if self._vapaa_muisti_indeksi in (0, 1):
             return "k"
 
         viimeisin_siirto = self._muisti[self._vapaa_muisti_indeksi - 1]
@@ -42,10 +59,9 @@ class TekoalyParannettu:
         # muulloin annetaan aina kivi
         if k > p or k > s:
             return "p"
-        elif p > k or p > s:
+        if p > k or p > s:
             return "s"
-        else:
-            return "k"
+        return "k"
 
         # Tehokkaampiakin tapoja löytyy, mutta niistä lisää
         # Johdatus Tekoälyyn kurssilla!

@@ -1,6 +1,8 @@
+"""Komentoriviohjelma kivi-paperi-sakset pelille."""
 from pelitehdas import luo_peli
 
 def main():
+    """Pääohjelma."""
     while True:
         print("Valitse pelataanko"
               "\n (a) Ihmistä vastaan"

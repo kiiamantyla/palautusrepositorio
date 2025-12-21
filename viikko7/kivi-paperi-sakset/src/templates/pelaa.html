@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelaa - Kivi, Paperi, Sakset</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .score {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .score h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        .score-line {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .moves {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .move-button {
+            width: 120px;
+            height: 120px;
+            font-size: 4em;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .move-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .move-button input {
+            display: none;
+        }
+        .player-section {
+            margin-bottom: 30px;
+        }
+        .player-section h3 {
+            margin-bottom: 15px;
+        }
+        button.end-button {
+            padding: 12px 30px;
+            font-size: 1em;
+            background: rgba(255, 100, 100, 0.9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button.end-button:hover {
+            background: rgba(255, 50, 50, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pelitilanne</h1>
+        
+        <div class="score">
+            <h2>Pisteet</h2>
+            <div class="score-line">{{ ekan_pisteet }} - {{ tokan_pisteet }}</div>
+            <p>Tasapelit: {{ tasapelit }}</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Tavoite: {{ voittojen_tavoite }} voittoa</p>
+        </div>
+        
+        <form action="/siirto" method="POST">
+            <div class="player-section">
+                {% if valinta == 'a' %}
+                    <h3>Pelaaja 1 - Valitse siirtosi:</h3>
+                {% else %}
+                    <h3>Valitse siirtosi:</h3>
+                {% endif %}
+                
+                <div class="moves">
+                    <button type="submit" name="siirto" value="k" class="move-button" title="Kivi">🪨</button>
+                    <button type="submit" name="siirto" value="p" class="move-button" title="Paperi">📄</button>
+                    <button type="submit" name="siirto" value="s" class="move-button" title="Sakset">✂️</button>
+                </div>
+            </div>
+            
+            {% if valinta == 'a' %}
+            <div class="player-section">
+                <h3>Pelaaja 2 - Valitse siirtosi:</h3>
+                <div class="moves">
+                    <button type="submit" name="tokan_siirto" value="k" class="move-button" title="Kivi">🪨</button>
+                    <button type="submit" name="tokan_siirto" value="p" class="move-button" title="Paperi">📄</button>
+                    <button type="submit" name="tokan_siirto" value="s" class="move-button" title="Sakset">✂️</button>
+                </div>
+            </div>
+            {% endif %}
+        </form>
+        
+        <form action="/loppu" method="GET">
+            <button type="submit" class="end-button">Lopeta peli</button>
+        </form>
+    </div>
+    
+    <script>
+        // Prevent double submission for two-player mode
+        {% if valinta == 'a' %}
+        const form = document.querySelector('form');
+        let player1Move = null;
+        let player2Move = null;
+        
+        document.querySelectorAll('button[name="siirto"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                player1Move = btn.value;
+                // Highlight selection
+                document.querySelectorAll('button[name="siirto"]').forEach(b => b.style.opacity = '0.5');
+                btn.style.opacity = '1';
+            });
+        });
+        
+        document.querySelectorAll('button[name="tokan_siirto"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (!player1Move) {
+                    e.preventDefault();
+                    alert('Pelaaja 1 täytyy valita siirto ensin!');
+                    return;
+                }
+                // Create hidden inputs for both moves
+                const input1 = document.createElement('input');
+                input1.type = 'hidden';
+                input1.name = 'siirto';
+                input1.value = player1Move;
+                
+                const input2 = document.createElement('input');
+                input2.type = 'hidden';
+                input2.name = 'tokan_siirto';
+                input2.value = btn.value;
+                
+                form.appendChild(input1);
+                form.appendChild(input2);
+            });
+        });
+        {% endif %}
+    </script>
+</body>
+</html>
